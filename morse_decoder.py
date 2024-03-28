@@ -31,13 +31,19 @@ key = {'.-': 'а',
        '..--':'ю',
        '.-.-':'я'}
 
-def decode(text):
-       for i in range(min(6, len(text))):
-              if i == len(text):
-                     return key[text]
-              else:
-                     return key[text[:i]] + decode(text[i:])
+file = open('out.txt', 'w')
+
+def decode(code, plain):
+       if code == '':
+              file.write(plain + '\n')
+       else:
+              for i in reversed(range(min(6, len(code) + 1))):
+                     if (code[:i] in key):
+                            decode(code[i:], plain + key[code[:i]])
+
 
 print('Введите зашифрованное сообщение: ')
 code = input()
-print(decode(code))
+decode(code, '')
+
+file.close()
